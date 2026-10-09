@@ -1,0 +1,1497 @@
+/* ========================================================
+   CHESS PWA - STIJLBLAD
+   Gebaseerd op de Figma-ontwerpen & Level 3 vereisten
+   ======================================================== */
+
+:root {
+    --bg-header: #4c4323;
+    --bg-header-border: #3b3318;
+    --nav-pill-bg: #747b25;
+    --nav-pill-hover: #868e2b;
+    --nav-pill-active: #98a12e;
+    
+    --card-brown: #5d4f29;
+    --card-brown-dark: #4d4120;
+    --card-item-bg: #574e27;
+    --card-item-hover: #63592c;
+    
+    --btn-primary: #919927;
+    --btn-primary-hover: #a3ab2c;
+    --btn-primary-active: #7c8320;
+    
+    --btn-danger: #b32617;
+    --btn-danger-hover: #c92f1f;
+    
+    --btn-draw: #d68910;
+    --btn-draw-hover: #e8981b;
+    
+    --input-bg: #514725;
+    --input-border: #685b31;
+    --input-focus: #9ba431;
+    --input-placeholder: #a39976;
+    
+    --board-light: #edeed1;
+    --board-dark: #779952;
+    --board-highlight: rgba(247, 247, 105, 0.5);
+    --board-check: rgba(235, 97, 80, 0.7);
+    --board-dot: rgba(20, 85, 30, 0.4);
+    
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
+    --shadow-pill: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --radius-pill: 9999px;
+    --radius-card: 20px;
+    --radius-sm: 10px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: #557937;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ========================================================
+   HEADER & NAVIGATIE (FIGMA MATCH)
+   ======================================================== */
+.main-header {
+    background-color: var(--bg-header);
+    border-bottom: 2px solid var(--bg-header-border);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chess-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.5px;
+    transition: transform 0.2s ease;
+}
+
+.chess-logo:hover {
+    transform: scale(1.03);
+}
+
+.logo-pawn {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+.logo-dot {
+    color: #a3c965;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.nav-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--nav-pill-bg);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 24px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-pill);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-pill:hover {
+    background-color: var(--nav-pill-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.nav-pill.active {
+    background-color: var(--nav-pill-active);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logout-pill {
+    background-color: #61562b;
+}
+
+.logout-pill:hover {
+    background-color: #736733;
+}
+
+/* ========================================================
+   MAIN CONTAINER & PAGINA ACHTERGRONDEN
+   ======================================================== */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Auth achtergrond: Vallende schaakstukken over groen vlak */
+.page-login-aanmeld,
+.page-inlog,
+.page-aanmeld,
+.auth-page {
+    background: #5c8742 url('../image/Schaakstukken-vallen.png') repeat center center;
+    background-size: 700px auto;
+}
+
+/* Home pagina achtergrond: Houten schaakbord */
+.page-home,
+.home-page {
+    background-color: #c9a674;
+    background-image: 
+        repeating-conic-gradient(#b88756 0% 25%, #dfc399 0% 50%);
+    background-size: 80px 80px;
+    background-attachment: fixed;
+}
+
+/* Schaakspel pagina achtergrond: Groen vilt / tafel */
+.page-chess,
+.page-game,
+.chess-game-page {
+    background: #557c39;
+    background-image: radial-gradient(circle at 50% 50%, #5f8a3f 0%, #4a6c31 100%);
+}
+
+.page-vrienden,
+.page-profiel {
+    background: #4a6c32 url('../image/Schaakstukken-vallen.png') repeat center top;
+    background-size: 800px auto;
+}
+
+/* ========================================================
+   AUTH SCHERMEN (FIGMA: login-aanmeld, inlog, aanmeld)
+   ======================================================== */
+.auth-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+.auth-card {
+    background-color: var(--card-brown);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    width: 100%;
+    max-width: 520px;
+    padding: 45px 40px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    backdrop-filter: blur(2px);
+    animation: fadeInScale 0.3s ease-out;
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.welcome-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.guest-login-helper {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 0.9rem;
+    color: #e2dfcb;
+}
+
+.btn-demo-link {
+    background: none;
+    border: none;
+    color: #c9db57;
+    text-decoration: underline;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.btn-demo-link:hover {
+    color: #ffffff;
+}
+
+/* Knoppen algemeen */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-pill {
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-pill);
+}
+
+.btn-primary {
+    background-color: var(--btn-primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+.btn-primary:active {
+    background-color: var(--btn-primary-active);
+    transform: translateY(1px);
+}
+
+.btn-large {
+    font-size: 1.3rem;
+    padding: 14px 44px;
+    letter-spacing: 0.3px;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-submit {
+    min-width: 180px;
+    font-size: 1.25rem;
+    padding: 12px 40px;
+    margin-top: 12px;
+}
+
+.btn-secondary {
+    background-color: #635730;
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: #746739;
+}
+
+/* Formulier styling (Figma Match) */
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-input-pill {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-pill);
+    padding: 16px 26px;
+    font-size: 1.15rem;
+    color: #ffffff;
+    font-family: var(--font-body);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input-pill::placeholder {
+    color: var(--input-placeholder);
+    opacity: 0.9;
+}
+
+.form-input-pill:focus {
+    border-color: var(--input-focus);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 10px rgba(155, 164, 49, 0.4);
+}
+
+/* Upload sectie (Figma aanmeld.png) */
+.upload-box {
+    background-color: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-card);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.upload-label {
+    cursor: pointer;
+    font-size: 1.15rem;
+    color: var(--input-placeholder);
+    font-weight: 500;
+}
+
+.avatar-preview-box {
+    background-color: #3f361a;
+    width: 90px;
+    height: 90px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    transition: border-color 0.2s;
+}
+
+.avatar-preview-box:hover {
+    border-color: var(--input-focus);
+}
+
+.avatar-preview-img {
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+}
+
+.auth-switch-link {
+    margin-top: 24px;
+    font-size: 0.95rem;
+    color: #ddd7be;
+}
+
+.auth-switch-link a {
+    color: #d1e25e;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* Alerts */
+.alert {
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.alert-danger {
+    background-color: #932317;
+    border: 1px solid #c93526;
+    color: #ffffff;
+}
+
+.alert-success {
+    background-color: #2e6930;
+    border: 1px solid #459448;
+    color: #ffffff;
+}
+
+/* ========================================================
+   HOME DASHBOARD (FIGMA: home.png MATCH)
+   ======================================================== */
+.home-wrapper {
+    max-width: 460px;
+    margin: 20px auto 40px auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.home-card {
+    background-color: var(--card-brown);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 24px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 1. Play Controls Card */
+.play-controls-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.time-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.btn-time {
+    background-color: #514925;
+    color: #ffffff;
+    border: 1px solid #635b34;
+    border-radius: var(--radius-pill);
+    padding: 10px 0;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-pill);
+    transition: all 0.2s ease;
+}
+
+.btn-time:hover {
+    background-color: #645a2e;
+    transform: translateY(-2px);
+}
+
+.btn-time.active {
+    background-color: #798125;
+    border-color: #9ca62f;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Titels als badge (zoals Vrienden & Geschiedenis in Figma) */
+.section-title-badge {
+    background-color: #534c26;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 1.55rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-pill);
+    border: 1px solid #6a6237;
+    margin-bottom: 20px;
+}
+
+/* 2. Vrienden sectie */
+.friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.friend-item {
+    background-color: var(--card-item-bg);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.avatar-frame {
+    background-color: #3b3317;
+    width: 66px;
+    height: 66px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.friend-avatar-img,
+.history-avatar-img {
+    width: 82%;
+    height: 82%;
+    object-fit: contain;
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #574e27;
+}
+
+.status-online {
+    background-color: #00e620;
+}
+
+.status-offline {
+    background-color: #8c8c8c;
+}
+
+.friend-details {
+    flex: 1;
+}
+
+.friend-name-rating {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.friend-challenge-times {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.btn-mini-time {
+    background-color: #4b4420;
+    color: #e5e5d8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid #5d542b;
+    text-align: center;
+    display: block;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: all 0.15s ease;
+}
+
+.btn-mini-time:hover {
+    background-color: #687023;
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+/* 3. Geschiedenis sectie */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.history-item {
+    background-color: var(--card-item-bg);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.history-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.elo-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.elo-symbol-box {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    font-weight: 900;
+    font-size: 1.1rem;
+    border-radius: 3px;
+}
+
+.rating-loss .elo-symbol-box {
+    background-color: #ff0000;
+}
+
+.rating-loss .elo-value {
+    color: #ffffff;
+}
+
+.rating-gain .elo-symbol-box {
+    background-color: #00e620;
+}
+
+.rating-gain .elo-value {
+    color: #ffffff;
+}
+
+.history-details {
+    flex: 1;
+}
+
+.history-name-rating {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.history-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.btn-action-pill {
+    background-color: #4b4420;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid #5d542b;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    transition: all 0.15s ease;
+}
+
+.btn-action-pill:hover {
+    background-color: #687023;
+}
+
+.empty-notice {
+    text-align: center;
+    color: #d8d3bd;
+    padding: 16px;
+    font-size: 0.95rem;
+}
+
+.empty-notice a {
+    color: #d1e25e;
+    text-decoration: underline;
+}
+
+/* ========================================================
+   SCHAAKSPEL PAGINA (FIGMA: chess.png MATCH)
+   ======================================================== */
+.game-layout-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* Panelen (Chat & Zetgeschiedenis) */
+.game-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.game-panel-card {
+    background-color: var(--card-brown);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-badge-title {
+    background-color: #534c26;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-pill);
+    border: 1px solid #6a6237;
+    margin-bottom: 14px;
+}
+
+/* Chat Styling */
+.chat-panel {
+    height: 440px;
+}
+
+.chat-messages-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.chat-bubble {
+    padding: 8px 12px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.system-bubble {
+    background-color: rgba(0, 0, 0, 0.25);
+    color: #ded9c5;
+    text-align: center;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.opponent-bubble {
+    background-color: #483f1e;
+    color: #ffffff;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.user-bubble {
+    background-color: #687023;
+    color: #ffffff;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.bubble-sender {
+    font-weight: 700;
+    display: block;
+    font-size: 0.8rem;
+    color: #cbd86a;
+}
+
+.chat-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.chat-input {
+    flex: 1;
+    background-color: #4a4120;
+    border: 1px solid #61562b;
+    border-radius: var(--radius-pill);
+    padding: 10px 16px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.chat-input::placeholder {
+    color: #9d9472;
+}
+
+.chat-input:focus {
+    border-color: var(--input-focus);
+}
+
+.btn-chat-send {
+    background-color: #7d8425;
+    color: #ffffff;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+}
+
+.btn-chat-send:hover {
+    background-color: #8f972b;
+}
+
+/* Knoppen onder panelen (Figma match) */
+.action-btn-row {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-danger {
+    background-color: var(--btn-danger);
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background-color: var(--btn-danger-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(179, 38, 23, 0.45);
+}
+
+.btn-draw {
+    background-color: var(--btn-draw);
+    color: #ffffff;
+}
+
+.btn-draw:hover {
+    background-color: var(--btn-draw-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(214, 137, 16, 0.45);
+}
+
+/* Middenkolom: Spelerbalken & Bord */
+.game-center-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Spelerbalken (Oranje/bruine balk in Figma) */
+.player-header-bar {
+    width: 100%;
+    max-width: 520px;
+    background-color: #aa6e11;
+    border-radius: 8px;
+    padding: 8px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.player-info-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.player-avatar-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background-color: #2b220d;
+    object-fit: contain;
+    padding: 2px;
+}
+
+.player-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #ffffff;
+}
+
+.player-elo {
+    font-weight: 400;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.clock-display {
+    background-color: #1f1a0a;
+    color: #ffffff;
+    font-family: monospace;
+    font-size: 1.35rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    min-width: 75px;
+    text-align: center;
+}
+
+.clock-display.active {
+    background-color: #383015;
+    border-color: #e5b33e;
+    color: #ffe680;
+    box-shadow: 0 0 8px rgba(229, 179, 62, 0.5);
+}
+
+/* Schaakbord */
+.chessboard-wrapper {
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 1 / 1;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+
+.chess-square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.chess-square.light {
+    background-color: var(--board-light);
+}
+
+.chess-square.dark {
+    background-color: var(--board-dark);
+}
+
+.chess-square.selected {
+    background-color: #f7f769 !important;
+}
+
+.chess-square.prev-move {
+    background-color: rgba(247, 247, 105, 0.5) !important;
+}
+
+.chess-square.in-check {
+    background-color: rgba(235, 97, 80, 0.8) !important;
+}
+
+/* Move dots */
+.chess-square.move-target::after {
+    content: '';
+    position: absolute;
+    width: 26%;
+    height: 26%;
+    background-color: var(--board-dot);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.chess-square.capture-target::after {
+    content: '';
+    position: absolute;
+    width: 82%;
+    height: 82%;
+    border: 4px solid var(--board-dot);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.chess-piece {
+    width: 88%;
+    height: 88%;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+    transition: transform 0.1s ease;
+}
+
+.chess-square:hover .chess-piece {
+    transform: scale(1.06);
+}
+
+/* Zetgeschiedenis paneel */
+.history-panel {
+    height: 440px;
+}
+
+.move-history-table {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px;
+    font-family: monospace;
+    font-size: 0.95rem;
+}
+
+.move-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 1fr;
+    padding: 5px 8px;
+    border-radius: 4px;
+    align-items: center;
+}
+
+.move-row:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.move-num {
+    color: #b7b093;
+}
+
+.move-ply {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.moves-placeholder {
+    color: #ad9f7d;
+    text-align: center;
+    margin-top: 30px;
+    font-style: italic;
+}
+
+/* ========================================================
+   MODAL (GAME OVER)
+   ======================================================== */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-backdrop[hidden] {
+    display: none !important;
+}
+
+.modal-card {
+    background-color: var(--card-brown);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 36px 30px;
+    text-align: center;
+    max-width: 440px;
+    width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: fadeInScale 0.25s ease-out;
+}
+
+.modal-heading {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+}
+
+.modal-text {
+    font-size: 1.1rem;
+    color: #e5e0cf;
+    margin-bottom: 18px;
+}
+
+.modal-elo-change {
+    background-color: #4b411f;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    font-size: 1.15rem;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+/* ========================================================
+   VRIENDEN & PROFIEL SUBPAGINA'S
+   ======================================================== */
+.subpage-wrapper {
+    max-width: 960px;
+    margin: 24px auto 50px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.subpage-header {
+    text-align: center;
+}
+
+.subpage-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.subpage-subtitle {
+    color: #ded9c4;
+    font-size: 1.05rem;
+}
+
+.add-friend-form {
+    margin-top: 10px;
+}
+
+.input-with-btn {
+    display: flex;
+    gap: 12px;
+}
+
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* Leaderboard */
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.leaderboard-item {
+    background-color: var(--card-item-bg);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.15s ease;
+}
+
+.leaderboard-item.is-current-user {
+    border: 2px solid #a4b335;
+    background-color: #635a2b;
+}
+
+.leaderboard-rank {
+    width: 44px;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.rank-gold { color: #ffd700; }
+.rank-silver { color: #c0c0c0; }
+.rank-bronze { color: #cd7f32; }
+
+.avatar-frame-small {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background-color: #3b3317;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.leaderboard-avatar-img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.leaderboard-player-meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.player-uname {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.player-elo-tag {
+    font-size: 0.85rem;
+    color: #d1ccb8;
+}
+
+.btn-challenge-lead {
+    font-size: 0.85rem;
+    padding: 5px 12px;
+}
+
+.badge-you {
+    background-color: #7d8425;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Profiel Pagina */
+.profile-hero-content {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 24px;
+    background-color: #3d3419;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.4);
+}
+
+.profile-avatar-large {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.btn-change-avatar {
+    position: absolute;
+    bottom: -8px;
+    background-color: #798124;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.profile-username {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.profile-elo-highlight {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.profile-elo-highlight .elo-number {
+    font-weight: 800;
+    color: #d8ea54;
+}
+
+.profile-sub-badges {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #dbd6c0;
+}
+
+.status-badge-inline.status-online { color: #00e620; }
+.status-badge-inline.status-offline { color: #a0a0a0; }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.stat-box {
+    background-color: var(--card-item-bg);
+    border-radius: 14px;
+    padding: 16px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-value {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #dad5bf;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-win .stat-value { color: #00e620; }
+.stat-loss .stat-value { color: #ff5252; }
+.stat-draw .stat-value { color: #e6b800; }
+.stat-rate .stat-value { color: #d8ea54; }
+
+/* Wedstrijdentabel */
+.history-table-container {
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+.games-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.games-history-table th {
+    text-align: left;
+    padding: 12px 14px;
+    background-color: #4b421f;
+    color: #e5dfcb;
+    font-weight: 600;
+}
+
+.games-history-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.games-history-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.badge-result {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.badge-result.win { background-color: #2e7d32; color: #ffffff; }
+.badge-result.loss { background-color: #c62828; color: #ffffff; }
+.badge-result.draw { background-color: #f57f17; color: #ffffff; }
+
+.text-gain { color: #00e620; }
+.text-loss { color: #ff5252; }
+
+.btn-mini-action {
+    background-color: #6d7522;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ========================================================
+   TOASTS & FOOTER
+   ======================================================== */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1100;
+}
+
+.toast {
+    background-color: #2b2512;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    border-left: 4px solid var(--btn-primary);
+    font-size: 0.95rem;
+    animation: toastSlideIn 0.3s ease-out;
+}
+
+@keyframes toastSlideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.app-footer {
+    background-color: var(--bg-header);
+    border-top: 1px solid var(--bg-header-border);
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #d1ccb6;
+    margin-top: auto;
+}
+
+/* ========================================================
+   RESPONSIVE LAYOUT (DESKTOP, TABLET, MOBIEL)
+   ======================================================== */
+@media (max-width: 1080px) {
+    .game-layout-container {
+        grid-template-columns: 1fr;
+        max-width: 540px;
+    }
+
+    .game-sidebar {
+        order: 2;
+    }
+
+    .game-center-col {
+        order: 1;
+    }
+
+    .two-column-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .header-container {
+        flex-direction: column;
+        gap: 12px;
+        padding: 10px 14px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: space-around;
+        gap: 6px;
+    }
+
+    .nav-pill {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+
+    .welcome-buttons {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .btn-large {
+        width: 100%;
+        font-size: 1.15rem;
+    }
+
+    .profile-hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

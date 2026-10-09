@@ -1,0 +1,21 @@
+{
+  "name": "Chess Online",
+  "short_name": "Chess",
+  "description": "Volledige schaak webapplicatie met multiplayer, AI, ratings en vrienden",
+  "start_url": "php/index.php",
+  "display": "standalone",
+  "background_color": "#4d4427",
+  "theme_color": "#5c8642",
+  "icons": [
+    {
+      "src": "image/Profielfoto.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "image/Profielfoto.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
